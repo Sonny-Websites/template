@@ -30,7 +30,7 @@
 <body>
     <header role="banner">
         <nav role="navigation" aria-label="Main navigation">
-            <div class="logo">My Site</div>
+            <a href="index.html" class="logo">🏢 My Site</a>
             <button class="hamburger" id="hamburgerMenu" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="navMenu">
                 <span></span>
                 <span></span>
@@ -46,14 +46,19 @@
         </nav>
     </header>
     <section class="hero" role="region" aria-labelledby="heroHeading">
-        <div class="hero-image-placeholder">
-            <img src="https://via.placeholder.com/1200x400" alt="Hero banner" loading="lazy">
-        </div>
-        <div class="hero-content">
-            <h1 id="heroHeading">Welcome to Our Site</h1>
-            <p>Discover amazing things with us. We provide top-notch services and solutions.</p>
-            <a href="#features" class="btn btn-primary">Explore Features</a>
-            <a href="#contact" class="btn btn-secondary">Get in Touch</a>
+        <div class="hero-wrapper">
+            <div class="hero-content">
+                <div class="hero-tag">Welcome to Excellence</div>
+                <h1 id="heroHeading">Exceptional Services Built for Your Success</h1>
+                <p class="hero-subtitle">Discover amazing things with us. We provide top-notch services and solutions that transform businesses and exceed expectations.</p>
+                <div class="hero-buttons">
+                    <a href="#features" class="btn btn-primary btn-large">Explore Features</a>
+                    <a href="#contact" class="btn btn-secondary btn-large">Get in Touch</a>
+                </div>
+            </div>
+            <div class="hero-image-placeholder">
+                <img src="https://placehold.co/500x500/667eea/ffffff?text=Our+Services" alt="Professional services showcase" loading="lazy">
+            </div>
         </div>
     </section>
     <section id="features" class="features" role="region" aria-labelledby="featuresHeading">
@@ -148,11 +153,12 @@
                 </div>
             </div>
             <div class="footer-section">
-                <h3>Newsletter</h3>
-                <form id="newsletterForm" class="newsletter-form">
-                    <input type="email" placeholder="Enter your email" required aria-label="Newsletter email">
-                    <button type="submit" class="btn btn-small">Subscribe</button>
-                </form>
+                <h3>Contact</h3>
+                <ul>
+                    <li>📍 123 Business St, City, State 12345</li>
+                    <li>📧 hello@mysite.com</li>
+                    <li>📞 (555) 123-4567</li>
+                </ul>
             </div>
         </div>
         <div class="footer-bottom">

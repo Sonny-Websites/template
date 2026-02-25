@@ -86,113 +86,83 @@ Depth should be communicated through Z-axis values, not arbitrary styling.
 
 ## 6. Form Guidelines
 
-Forms must prioritize usability, accessibility, and clear visual feedback for user actions.
+Forms must provide robust client-side validation, accessibility support, and clear feedback mechanisms.
 
-### Form Structure & Layout
+### Form Structure & Accessibility
 
-* **Field Organization:**
-  * Stack form groups vertically with **16px–24px** spacing between fields.
-  * Use a single-column layout for optimal mobile readiness.
-  * Group related fields with a light border (1px, 10% opacity grey) and **16px** padding.
+* **Labels & Field Binding:**
+  * Every `<input>` and `<textarea>` must have an associated `<label>` with explicit `for` attribute.
+  * Required fields must include `aria-required="true"` and mark with `<span aria-label="required">*</span>`.
+  * Use `aria-label` for button actions (e.g., `aria-label="Toggle navigation menu"`).
 
-* **Labels:**
-  * Position labels **above** input fields (not inside or floating).
-  * Use font weight **500–600** (semi-bold).
-  * Font size: **14px** (0.875rem) minimum.
-  * Required fields: Indicate with red asterisk (`*`) and `aria-label="required"`.
-  * All labels must have explicit `for` attributes linking to corresponding `input` `id`.
+* **ARIA Attributes:**
+  * Link error messages to inputs with `aria-describedby="fieldError"`.
+  * Use `role="alert"` and `aria-live="polite"` on response message containers.
+  * Set `aria-current="page"` on active navigation links.
+  * Add `role="region"` and `aria-labelledby` to major form sections.
 
-* **Input Fields:**
-  * Minimum height: **44px** (touch-friendly).
-  * Padding: **12px 16px** (vertical, horizontal).
-  * Border: **1px solid** neutral grey (10–20% opacity).
-  * Border-radius: **4px–8px** for consistency.
-  * Font size: **16px** (prevents auto-zoom on iOS).
-  * Font family: System stack or body font (e.g., Poppins, -apple-system).
+* **Semantic HTML:**
+  * Use `<form>` with explicit `method="post"`.
+  * Wrap each field in a `<div class="form-group">` for consistent spacing.
+  * Use `<textarea>` for multi-line text (not `<input type="text">`).
+  * Include `novalidate` attribute to enable custom validation.
 
-### Input States
+### Validation Rules & Error Handling
 
-| State | Requirement |
-| --- | --- |
-| **Default** | Border color: neutral grey (10–20% opacity). Background: white or light surface. |
-| **Focus** | 2px solid outline (brand color) with 2px offset. Remove default browser outline. |
-| **Hover** | Border color darken by 5–10% opacity. Optional subtle background shift. |
-| **Disabled** | Opacity: 0.5. Background: light grey. `cursor: not-allowed`. |
-| **Error** | Border color: Red (#E53E3E or equivalent). Background: Light red tint (#FEE). |
-| **Success** | Border color: Green (#48BB78 or equivalent). Optional checkmark icon. |
+* **Validation Timing:**
+  * Validate on `blur` event (when field loses focus) to minimize disruption.
+  * Re-validate on `input` event to clear errors when user corrects the field.
+  * Always validate before form submission.
+  * Show inline error messages immediately upon validation failure.
 
-### Validation & Error Handling
+* **Validation Logic (Applied to this template):**
+  * **Name:** Minimum 2 characters.
+  * **Email:** Valid email format (RFC 5322 compliant).
+  * **Message:** Minimum 10 characters.
 
-* **Error Messages:**
-  * Positioning: Directly below the input field with **8px** top margin.
-  * Font size: **12px** (0.75rem).
-  * Color: Red (error state color, e.g., #E53E3E).
-  * Font weight: 400 (regular) or 500 (semi-bold for emphasis).
-  * Use `aria-describedby` on input to link to error message container.
-  * Prefix with icon (e.g., ⚠️) for visual affordance.
+* **Error Message Display:**
+  * Store error message in a dedicated `<span>` with `id="fieldError"` for each field.
+  * Wire each input's `aria-describedby` to its error message container.
+  * Clear error message when field becomes valid.
+  * Do not prevent form submission on validation error; display errors instead.
 
-* **Validation Rules (Applied to this template):**
-  * **Name:** Minimum 2 characters, letters and spaces only.
-  * **Email:** Valid email format (`user@domain.ext`).
-  * **Message:** Minimum 10 characters for meaningful content.
-  * **Honeypot Field:** `_hp` input (display:none, tabindex:-1) to catch bots.
+* **Honeypot Field:**
+  * Include hidden spam-detection field: `<input type="text" name="_hp" style="display:none" tabindex="-1">`
+  * If `_hp` field contains any value on submission, treat as spam and reject silently.
 
-* **Real-Time Feedback:**
-  * Validate on `blur` (when field loses focus) to avoid disrupting user input.
-  * Display inline error messages immediately upon validation failure.
-  * Clear error message when user corrects the field (on `input` event).
-  * Show loading state during form submission with `aria-busy="true"` on submit button.
+### Form Submission & Loading States
 
-### Textarea Styling
+* **Submit Button Behavior:**
+  * Disable button immediately on click to prevent duplicate submissions.
+  * Set `aria-busy="true"` on button during submission.
+  * Change button text to "Sending..." (or equivalent) while request is pending.
+  * Prevent further interactions until response is received.
+  * Re-enable button if submission fails; keep disabled if successful.
 
-* **Dimensions:**
-  * Min-height: **120px** (5 rows default).
-  * Width: 100% of container.
-  * Resize: Vertical only (no horizontal resize).
+* **Request Handling:**
+  * Use `POST` method with `action="/__forms/contact"` or equivalent endpoint.
+  * Submit form data via JavaScript (not native form submission) for better control.
+  * Include timeout protection (e.g., 30-second limit) for stalled requests.
+  * Handle network errors gracefully with user-facing error messages.
 
-* **Styling:**
-  * Padding: **12px 16px**.
-  * Border: **1px solid** neutral grey (same as inputs).
-  * Border-radius: **4px–8px**.
-  * Font family: System stack (match inputs for consistency).
-  * Font size: **16px**.
-  * Line-height: **1.5** for readability.
+### Response & User Feedback
 
-### Submit Button (within Form)
-
-* **Dimensions & Spacing:**
-  * Minimum height: **44px**.
-  * Padding: **12px 32px** (or match input height).
-  * Top margin: **24px** (separate from last form field).
-  * Full width on mobile; auto width on desktop (optional).
-
-* **Visual Feedback:**
-  * Default: Primary brand color, white text, solid fill.
-  * Hover: 10–15% luminance shift.
-  * Active/Pressed: `scale(0.98)` transform or inset shadow.
-  * Disabled: Opacity 0.5, `cursor: not-allowed`.
-  * Loading state: 
-    * Show spinner or animated dots inside button.
-    * Change text to "Sending..." or "Please wait…"
-    * Prevent button re-submission with `disabled` attribute.
-    * Use `aria-busy="true"` to announce loading state.
-
-* **Focus State:**
-  * 2px solid outline (brand color) with 2px offset.
-  * Ensure outline is visible and not hidden by surrounding elements.
-
-### Response & Confirmation
-
-* **Success Message:**
-  * Display success message in container with `role="alert"` and `aria-live="polite"`.
-  * Message text: "Thank you! Your message has been sent successfully."
-  * Color: Green (success state, e.g., #48BB78).
-  * Auto-redirect after **3–5 seconds** or provide manual "Continue" link.
+* **Success Response:**
+  * Redirect to success page (e.g., `thank-you.html`) after successful submission.
+  * Alternatively, display success message container with `role="alert"` and `aria-live="polite"`.
+  * Message must confirm action and provide next steps or contact information.
+  * Optional: Auto-redirect after 3–5 seconds if staying on current page.
 
 * **Error Response:**
-  * Display error message in alert container with `role="alert"` and `aria-live="polite"`.
-  * Message text: "Sorry, something went wrong. Please try again later."
-  * Allow user to re-submit the form.
+  * Display error message in container with `role="alert"` and `aria-live="polite"`.
+  * Message must explain what went wrong (e.g., "Server error. Please try again.").
+  * Allow user to re-submit the form without page reload.
+  * Log error details to console for debugging purposes.
+
+* **Response Container:**
+  * Use dedicated `<div id="responseMessage" role="alert"></div>` for all responses.
+  * Ensure element is visible and not hidden by CSS or JavaScript.
+  * Clear previous messages before displaying new ones.
 
 ## 🎨 Design Features
 

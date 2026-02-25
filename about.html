@@ -14,7 +14,7 @@
 <body>
     <header role="banner">
         <nav role="navigation" aria-label="Main navigation">
-            <div class="logo">My Site</div>
+            <a href="index.html" class="logo">🏢 My Site</a>
             <button class="hamburger" id="hamburgerMenu" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="navMenu">
                 <span></span>
                 <span></span>
@@ -30,9 +30,16 @@
     </header>
     <section class="about" role="main" aria-labelledby="aboutHeading">
         <h1 id="aboutHeading">About Us</h1>
-        <p>We are a company dedicated to providing excellent services. Our team is passionate about innovation and customer satisfaction.</p>
-        <p>Learn more about our mission and values. With over a decade of experience in our industry, we have built a reputation for delivering exceptional quality and exceeding customer expectations.</p>
-        <a href="index.html#contact" class="btn btn-primary" style="display: inline-block; margin-top: 2rem;">Get in Touch</a>
+        <div class="about-content">
+            <div class="about-image">
+                <img src="https://via.placeholder.com/400x300" alt="Company team working together" loading="lazy">
+            </div>
+            <div class="about-text">
+                <p>We are a company dedicated to providing excellent services. Our team is passionate about innovation and customer satisfaction.</p>
+                <p>Learn more about our mission and values. With over a decade of experience in our industry, we have built a reputation for delivering exceptional quality and exceeding customer expectations.</p>
+                <a href="index.html#contact" class="btn btn-primary" style="display: inline-block; margin-top: 2rem;">Get in Touch</a>
+            </div>
+        </div>
     </section>
     <footer role="contentinfo">
         <div class="footer-content">
@@ -53,11 +60,12 @@
                 </div>
             </div>
             <div class="footer-section">
-                <h3>Newsletter</h3>
-                <form id="newsletterForm" class="newsletter-form">
-                    <input type="email" placeholder="Enter your email" required aria-label="Newsletter email">
-                    <button type="submit" class="btn btn-small">Subscribe</button>
-                </form>
+                <h3>Contact</h3>
+                <ul>
+                    <li>📍 123 Business St, City, State 12345</li>
+                    <li>📧 hello@mysite.com</li>
+                    <li>📞 (555) 123-4567</li>
+                </ul>
             </div>
         </div>
         <div class="footer-bottom">
